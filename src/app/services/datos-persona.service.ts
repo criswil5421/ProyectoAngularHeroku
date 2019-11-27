@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DatosPersonaService {
 
-  endPoint = 'https://protectolaravel.herokuapp.com/api/persona';
+  endPoint = 'http://localhost:8000/api/persona';
 
   constructor(private http: HttpClient) {
   }

@@ -1,15 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule }  from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CartComponent } from './cart/cart.component';
-import { ShippingComponent } from './shipping/shipping.component';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { RequestResetComponent } from './components/password/request-reset/request-reset.component';
+import { ResponseResetComponent } from './components/password/response-reset/response-reset.component';
+
+import { LoginSignupService } from './services/auth/login-signup.service';
+import { TokenService } from './services/auth/token.service';
+import { AuthService } from './services/auth/auth.service';
+import { AfterLoginService } from './services/auth/after-login.service';
+import { BeforeLoginService } from './services/auth/before-login.service';
+
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+
 import { ClienteIndexComponent } from './cliente-index/cliente-index.component';
 import { ClienteFormComponent } from './cliente-form/cliente-form.component';
 import { CapacitacionIndexComponent } from './capacitacion-index/capacitacion-index.component';
@@ -23,74 +39,77 @@ import { ComentariodatosIndexComponent } from './comentariodatos-index/comentari
 import { OfertaLaboralComponent } from './oferta-create/oferta-laboral.component';
 import { PerfilegresadoComponent } from './perfilegresado/perfilegresado.component';
 import { FilterPipe } from './pipes/filter.pipe';
-import { FormsModule } from '@angular/forms';
 import { ComentariosenviosIndexComponent } from './comentariosenvios-index/comentariosenvios-index.component';
 import { CursosoferIndexComponent } from './cursosofer-index/cursosofer-index.component';
 import { OfertalabIndexComponent } from './ofertalab-index/ofertalab-index.component';
-
+import { IndexIndexComponent } from './index-index/index-index.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'shipping', component: ShippingComponent },
+
 
   { path: 'clienteindex',  component: ClienteIndexComponent },
   { path: 'clienteform',  component: ClienteFormComponent },
   { path: 'clienteform/:id',  component: ClienteFormComponent },
 
 
-  { path: 'comentarioenvio',  component: ComentariosenviosIndexComponent },
+  { path: 'comentarioenvio',  component: ComentariosenviosIndexComponent ,
+  canActivate: [AfterLoginService]},
 
 
-  { path: 'curosofer',  component: CursosoferIndexComponent },
+  { path: 'curosofer',  component: CursosoferIndexComponent ,
+  canActivate: [AfterLoginService]},
 
-  { path: 'comentarioindex',  component: ComentariodatosIndexComponent },
+  { path: 'comentarioindex',  component: ComentariodatosIndexComponent,
+  canActivate: [AfterLoginService]},
 
-  { path: 'egresadodatosindex',  component: EgresadoDatosIndexComponent },
-  { path: 'egresadodatosform',  component: EgresadoDatosIndexComponent },
-  { path: 'egresadodatosindex/:id',  component: EgresadoDatosIndexComponent },
+  { path: 'egresadodatosindex',  component: EgresadoDatosIndexComponent ,
+  canActivate: [AfterLoginService]},
 
-  { path: 'datosgeneralesindex',  component: DatosGeneralesIndexComponent },
-  { path: 'datosgeneralesform',  component: DatosGeneralesIndexComponent },
-  { path: 'datosgeneralesindex/:id',  component: DatosGeneralesIndexComponent },
 
-  { path: 'capacitacionindex',  component: CapacitacionIndexComponent },
-  { path: 'capacitacionform',  component: CapacitacionFormComponent },
-  { path: 'capacitacionform/:id',  component: CapacitacionFormComponent },
+  { path: 'datosgeneralesindex',  component: DatosGeneralesIndexComponent ,
+  canActivate: [AfterLoginService]},
 
-  { path: 'egresadoindex',  component: EgresadoIndexComponent },
+
+  { path: 'egresadoindex',  component: EgresadoIndexComponent,
+  canActivate: [AfterLoginService] },
   { path: 'egresadoform',  component: EgresadoFormComponent },
   { path: 'egresadoform/:id',  component: EgresadoFormComponent },
 
 
-  { path: 'personaindex',  component: PersonaIndexComponent },
-  { path: 'personaform',  component: PersonaIndexComponent },
-  { path: 'personaform/:id',  component: PersonaIndexComponent },
+  { path: 'personaindex',  component: PersonaIndexComponent,
+  canActivate: [AfterLoginService] },
 
 
   
-  { path: 'oferta_laboral',  component: OfertaLaboralComponent },
-  { path: 'oferta_laboral',  component: OfertaLaboralComponent },
-  { path: 'oferta_laboral/:id',  component: OfertaLaboralComponent },
-
-  { path: 'ofertaindex',  component: OfertalabIndexComponent },
+  { path: 'oferta_laboral',  component: OfertaLaboralComponent,
+  canActivate: [AfterLoginService] },
 
 
-  { path: 'perfilegresado',  component: PerfilegresadoComponent },
-  { path: 'perfilegresado',  component: PerfilegresadoComponent },
-  { path: 'perfilegresado/:id',  component: PerfilegresadoComponent },
+  { path: 'ofertaindex',  component: OfertalabIndexComponent ,
+  canActivate: [AfterLoginService]},
 
-  { path: '**', component: PageNotFoundComponent },
+
+  { path: 'perfilegresado',  component: PerfilegresadoComponent,
+  canActivate: [AfterLoginService] },
+
+
+  { path: '**', component: PageNotFoundComponent,
+  canActivate: [AfterLoginService] },
 
 ];
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    NavbarComponent,
+    LoginComponent,
+    SignupComponent,
+    ProfileComponent,
+    RequestResetComponent,
+    ResponseResetComponent,
+
     PageNotFoundComponent,
-    CartComponent,
-    ShippingComponent,
     ClienteIndexComponent,
     ClienteFormComponent,
     CapacitacionIndexComponent,
@@ -106,19 +125,32 @@ const appRoutes: Routes = [
     FilterPipe,
     ComentariosenviosIndexComponent,
     CursosoferIndexComponent,
-    OfertalabIndexComponent
+    OfertalabIndexComponent,
+    IndexIndexComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    ReactiveFormsModule,
+    AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    SnotifyModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       appRoutes,
       
     )
   ],
-  providers: [],
+  providers: [
+    LoginSignupService,
+    TokenService,
+    AuthService,
+    AfterLoginService,
+    BeforeLoginService,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
