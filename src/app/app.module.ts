@@ -32,7 +32,6 @@ import { CapacitacionIndexComponent } from './capacitacion-index/capacitacion-in
 import { EgresadoIndexComponent } from './egresado-index/egresado-index.component';
 import { CapacitacionFormComponent } from './capacitacion-form/capacitacion-form.component';
 import { EgresadoFormComponent } from './egresado-form/egresado-form.component';
-import { PersonaIndexComponent } from './persona-index/persona-index.component';
 import { EgresadoDatosIndexComponent } from './egresado-datos-index/egresado-datos-index.component';
 import { DatosGeneralesIndexComponent } from './datos-generales-index/datos-generales-index.component';
 import { ComentariodatosIndexComponent } from './comentariodatos-index/comentariodatos-index.component';
@@ -76,9 +75,6 @@ const appRoutes: Routes = [
   { path: 'egresadoform/:id',  component: EgresadoFormComponent },
 
 
-  { path: 'personaindex',  component: PersonaIndexComponent,
-  canActivate: [AfterLoginService] },
-
 
   
   { path: 'oferta_laboral',  component: OfertaLaboralComponent,
@@ -116,7 +112,6 @@ const appRoutes: Routes = [
     EgresadoIndexComponent,
     CapacitacionFormComponent,
     EgresadoFormComponent,
-    PersonaIndexComponent,
     EgresadoDatosIndexComponent,
     DatosGeneralesIndexComponent,
     ComentariodatosIndexComponent,
